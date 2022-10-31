@@ -2,6 +2,11 @@ class Solution:
     def __init__(self):
         pass
     def getMaxPath(self, g: int, location:list[tuple[int]], coins:list[int], numOfChest: int) -> int:
+        if numOfChest == 0:
+            return 0
+        elif numOfChest == 1:
+            return coins[0]
+        
         chest = {}
         for index, loc in enumerate(location):
             chest[loc] = coins[index]
