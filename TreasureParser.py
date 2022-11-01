@@ -51,7 +51,6 @@ class TreasureParser:
 
             self.testdata.append(temp)
             f.close()
-        print(self.testdata)
 
     def runSolution(self):
         for data in self.testdata:
@@ -65,11 +64,10 @@ class TreasureParser:
         return -1
 
     def writeOutput(self):
-        print(self.output)
-        for testfilename in self.arguments.testfile:
+        for index, testfilename in enumerate(self.arguments.testfile):
             outname = testfilename.split(".")[0] + ".out"
             f = open(outname, "w")
-            f.write(str(self.output[0]))
+            f.write(str(self.output[index]))
             f.close()
 
 
