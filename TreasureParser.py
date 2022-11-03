@@ -5,8 +5,10 @@ import sys
 class TreasureParser:
     def __init__(self):
         self.DEFAULT_INFILE = "treasure.in"
+        self.FAILED_TO_OPEN_OUT_FILE = "Error: failed to open the output file"
         self.testdata = []
         self.output = []
+        self.print = False
 
     def start(self):
         self.commandLineParser()
@@ -28,9 +30,20 @@ class TreasureParser:
                                required=False,
                                nargs="*"
                                )
+        arg_parse.add_argument("-p",
+                               "--print",
+                               help="print the input and output in console",
+                               required=False,
+                               action="store_true"
+                            #    choices=[True, False],
+                            #    default=False
+                               )
+                               
         self.arguments = arg_parse.parse_args()
         if not self.arguments.testfile:
             self.arguments.testfile = [self.DEFAULT_INFILE]
+
+        self.print = self.arguments.print
 
     def fileParsing(self):
 
@@ -53,9 +66,21 @@ class TreasureParser:
             f.close()
 
     def runSolution(self):
-        for data in self.testdata:
-            self.output.append(self.treasureHunting(
-                data[0], data[1], data[2], data[3]))
+        for index, data in enumerate(self.testdata):
+
+            answer = self.treasureHunting(
+                data[0], data[1], data[2], data[3]
+                )
+            #printing the inputs:
+            if self.print:
+                print("Running test case:", index+1)
+                print("g = ", data[0],
+                      "\nn = ",data[1],
+                      "\nlocations = ",data[2],
+                      "\nchests = ",data[3])
+                print("Output: ", answer)
+
+            self.output.append(answer)
 
     def treasureHunting(self, g: int, n: int, locations: list[int], chests: list[int]) -> int:
         #######
@@ -66,7 +91,10 @@ class TreasureParser:
     def writeOutput(self):
         for index, testfilename in enumerate(self.arguments.testfile):
             outname = testfilename.split(".")[0] + ".out"
-            f = open(outname, "w")
+            try:
+                f = open(outname, "w")
+            except:
+                print(self.FAILED_TO_OPEN_OUT_FILE)
             f.write(str(self.output[index]))
             f.close()
 
