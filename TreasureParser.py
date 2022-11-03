@@ -83,10 +83,15 @@ class TreasureParser:
             self.output.append(answer)
 
     def treasureHunting(self, g: int, n: int, locations: list[int], chests: list[int]) -> int:
-        #######
-        # write your solution here!
-        #######
-        return -1
+        if n == 0:
+            return 0
+        elif n == 1:
+            return chests[0]
+        
+        locations = [lamda for x in ]
+
+        max_plunder = {}
+        for 
 
     def writeOutput(self):
         for index, testfilename in enumerate(self.arguments.testfile):
